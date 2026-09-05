@@ -1,6 +1,6 @@
 'use strict';
 /* =========================================================
-   TRAIN FRONTIER — game.js
+   ENDLESS RAIL — game.js
    Constants / State / Renderer / Input / Game Loop / Train / Cars /
    Weapons / Enemies / Bosses / Waves / Events / Roguelike Map /
    Tutorial / API Client / Auth UI / Friends UI / Leaderboard UI /
