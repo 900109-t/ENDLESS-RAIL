@@ -1,7 +1,7 @@
 {
-  "name": "train-frontier",
+  "name": "endless-rail",
   "version": "1.0.0",
-  "description": "TRAIN FRONTIER - 모바일 전용 열차 디펜스 온라인 웹게임",
+  "description": "ENDLESS RAIL - 모바일 전용 열차 디펜스 온라인 웹게임",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
