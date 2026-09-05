@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0e14" />
+<title>TRAIN FRONTIER</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- 가로모드 차단 -->
+<div id="orientationBlock" class="orientation-block">
+  <div class="ob-icon">📱</div>
+  <div>이 게임은 세로 화면 전용입니다.</div>
+  <div>휴대폰을 세로로 돌려주세요.</div>
+</div>
+
+<div id="app" class="app">
+
+  <!-- 로딩 화면 -->
+  <div id="screen-loading" class="screen active">
+    <div class="loading-wrap">
+      <div class="tf-logo">TRAIN<br/>FRONTIER</div>
+      <div class="loading-bar"><div class="loading-bar-fill" id="loadingFill"></div></div>
+      <div class="loading-text" id="loadingText">시스템 부팅 중...</div>
+    </div>
+  </div>
+
+  <!-- 인증(로그인/회원가입) 화면 -->
+  <div id="screen-auth" class="screen">
+    <div class="panel auth-panel">
+      <div class="tf-logo small">TRAIN FRONTIER</div>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="login">로그인</button>
+        <button class="tab-btn" data-tab="register">회원가입</button>
+      </div>
+
+      <form id="loginForm" class="auth-form active">
+        <input type="email" id="loginEmail" placeholder="이메일" required autocomplete="email" />
+        <input type="password" id="loginPassword" placeholder="비밀번호" required autocomplete="current-password" />
+        <button type="submit" class="btn-primary">출발하기</button>
+        <div class="auth-error" id="loginError"></div>
+      </form>
+
+      <form id="registerForm" class="auth-form">
+        <input type="email" id="regEmail" placeholder="이메일" required autocomplete="email" />
+        <input type="text" id="regUsername" placeholder="닉네임 (2-20자)" required maxlength="20" />
+        <input type="password" id="regPassword" placeholder="비밀번호 (8자 이상)" required autocomplete="new-password" />
+        <button type="submit" class="btn-primary">승무원 등록</button>
+        <div class="auth-error" id="regError"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 메인 메뉴 -->
+  <div id="screen-menu" class="screen">
+    <div class="menu-wrap">
+      <div class="tf-logo small">TRAIN FRONTIER</div>
+      <div class="menu-sub" id="menuWelcome">승무원 대기 중</div>
+
+      <button class="btn-primary btn-huge" id="btnDeparture">🚂 출발</button>
+
+      <div class="menu-grid">
+        <button class="btn-menu" id="btnMyTrain">🚃 내 열차</button>
+        <button class="btn-menu" id="btnUpgrade">⚙️ 업그레이드</button>
+        <button class="btn-menu" id="btnLeaderboard">🏆 랭킹</button>
+        <button class="btn-menu" id="btnFriends">👥 친구</button>
+        <button class="btn-menu" id="btnProfile">🪪 프로필</button>
+        <button class="btn-menu" id="btnSettings">⚙ 설정</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 내 열차 / 업그레이드 화면 (공용) -->
+  <div id="screen-train" class="screen">
+    <div class="topbar"><button class="btn-back" data-back="menu">←</button><span id="trainScreenTitle">내 열차</span></div>
+    <div class="scroll-area" id="trainCarsList"></div>
+  </div>
+
+  <!-- 랭킹 화면 -->
+  <div id="screen-leaderboard" class="screen">
+    <div class="topbar"><button class="btn-back" data-back="menu">←</button><span>랭킹</span></div>
+    <div class="tabs">
+      <button class="tab-btn active" data-lbtab="global">전체</button>
+      <button class="tab-btn" data-lbtab="weekly">주간</button>
+      <button class="tab-btn" data-lbtab="friends">친구</button>
+    </div>
+    <div class="scroll-area" id="leaderboardList"></div>
+  </div>
+
+  <!-- 친구 화면 -->
+  <div id="screen-friends" class="screen">
+    <div class="topbar"><button class="btn-back" data-back="menu">←</button><span>친구</span></div>
+    <div class="friend-search-row">
+      <input type="text" id="friendSearchInput" placeholder="닉네임 검색" />
+      <button class="btn-small" id="friendSearchBtn">검색</button>
+    </div>
+    <div class="scroll-area" id="friendSearchResults"></div>
+    <div class="section-title">받은 요청</div>
+    <div class="scroll-area small" id="friendRequestsIncoming"></div>
+    <div class="section-title">친구 목록</div>
+    <div class="scroll-area" id="friendsList"></div>
+  </div>
+
+  <!-- 프로필 화면 -->
+  <div id="screen-profile" class="screen">
+    <div class="topbar"><button class="btn-back" data-back="menu">←</button><span>프로필</span></div>
+    <div class="profile-card" id="profileCard"></div>
+  </div>
+
+  <!-- 설정 화면 -->
+  <div id="screen-settings" class="screen">
+    <div class="topbar"><button class="btn-back" data-back="menu">←</button><span>설정</span></div>
+    <div class="settings-list">
+      <label class="setting-row"><span>음악</span><input type="checkbox" id="settingMusic" checked /></label>
+      <label class="setting-row"><span>효과음</span><input type="checkbox" id="settingSfx" checked /></label>
+      <label class="setting-row"><span>진동</span><input type="checkbox" id="settingVibration" checked /></label>
+      <label class="setting-row"><span>FPS 표시</span><input type="checkbox" id="settingFps" /></label>
+      <button class="btn-primary" id="btnLogout" style="margin-top:20px;">로그아웃</button>
+    </div>
+  </div>
+
+  <!-- 게임 화면 -->
+  <div id="screen-game" class="screen">
+    <div class="game-hud">
+      <div class="hud-top">
+        <div class="hud-hp-wrap"><div class="hud-hp-bar"><div id="hudHpFill" class="hud-hp-fill"></div></div><span id="hudHpText">HP 100</span></div>
+        <div class="hud-wave" id="hudWave">WAVE 1</div>
+      </div>
+      <div class="hud-resources">
+        <span id="resScrap">🔩 0</span>
+        <span id="resEnergy">⚡ 0</span>
+        <span id="resFuel">⛽ 0</span>
+        <span id="resCore">💠 0</span>
+      </div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="game-bottom">
+      <div class="game-actions">
+        <button class="btn-action" id="btnActionCars">객차</button>
+        <button class="btn-action" id="btnActionBuild">건설</button>
+        <button class="btn-action" id="btnActionUpgrade">업그레이드</button>
+        <button class="btn-action" id="btnActionRepair">수리</button>
+        <button class="btn-action" id="btnActionSkill">스킬</button>
+        <button class="btn-action" id="btnActionPause">일시정지</button>
+      </div>
+    </div>
+
+    <div class="event-banner" id="eventBanner"></div>
+    <div class="tutorial-box" id="tutorialBox"></div>
+  </div>
+
+  <!-- 게임 종료 오버레이 -->
+  <div id="overlayResult" class="overlay hidden">
+    <div class="result-panel">
+      <div class="result-title" id="resultTitle">TRAIN DESTROYED</div>
+      <div class="result-stats" id="resultStats"></div>
+      <div class="result-rewards" id="resultRewards"></div>
+      <div class="result-rank" id="resultRank"></div>
+      <button class="btn-primary" id="btnResultContinue">다시 출발</button>
+      <button class="btn-secondary" id="btnResultMenu">메인 메뉴</button>
+    </div>
+  </div>
+
+  <!-- 경로 선택 오버레이(로그라이크 맵) -->
+  <div id="overlayMap" class="overlay hidden">
+    <div class="map-panel">
+      <div class="map-title">경로 선택</div>
+      <div class="map-nodes" id="mapNodes"></div>
+    </div>
+  </div>
+
+  <!-- 네트워크 오류 오버레이 -->
+  <div id="overlayNetError" class="overlay hidden">
+    <div class="net-error-panel">
+      <div>서버에 연결할 수 없습니다.</div>
+      <button class="btn-primary" id="btnRetryNet">다시 시도</button>
+    </div>
+  </div>
+
+  <!-- 공용 모달 -->
+  <div id="overlayModal" class="overlay hidden">
+    <div class="modal-panel" id="modalPanel"></div>
+  </div>
+
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
