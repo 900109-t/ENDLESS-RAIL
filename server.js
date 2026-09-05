@@ -14,7 +14,7 @@ const { z } = require('zod');
 const { randomUUID } = require('crypto');
 
 const PORT = process.env.PORT || 3000;
-const SESSION_SECRET = process.env.SESSION_SECRET || 'train-frontier-dev-secret-change-me';
+const SESSION_SECRET = process.env.SESSION_SECRET || 'endless-rail-dev-secret-change-me';
 const COOKIE_NAME = 'tf_session';
 const SESSION_MAX_AGE_MS = 1000 * 60 * 60 * 24 * 30; // 30일
 
@@ -697,7 +697,7 @@ async function start() {
     console.error('[Server] DB 초기화 실패. DATABASE_URL 환경변수를 확인하세요.', err.message);
   }
   app.listen(PORT, () => {
-    console.log(`[Server] TRAIN FRONTIER 서버가 포트 ${PORT}에서 실행 중입니다.`);
+    console.log(`[Server] ENDLESS RAIL 서버가 포트 ${PORT}에서 실행 중입니다.`);
   });
 }
 
